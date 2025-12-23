@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
-import { Trophy, Settings, Eye, Info } from 'lucide-react';
+import { Trophy, Settings, Eye, Info, Users, Ghost, Mic } from 'lucide-react';
 import { initialQuestions } from './data/initialQuestions';
+import { initialParticipants, initialImpostorWords } from './data/impostorInitialData';
+import { initialMimicaWords } from './data/mimicaInitialData';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import TriviaView from './components/Trivia/TriviaView';
 import TriviaEdit from './components/Trivia/TriviaEdit';
+import ImpostorGame from './components/Impostor/ImpostorGame';
+import ImpostorAdmin from './components/Impostor/ImpostorAdmin';
+import MimicaGame from './components/Mimica/MimicaGame';
+import MimicaAdmin from './components/Mimica/MimicaAdmin';
 
 function App() {
     const [activeLevel, setActiveLevel] = useState(1);
     const [isAdminMode, setIsAdminMode] = useState(false);
+
+    // Level 1 State
     const [questions, setQuestions] = useLocalStorage('paquiz-questions', initialQuestions);
+
+    // Level 2 State
+    const [participants, setParticipants] = useLocalStorage('paquiz-participants', initialParticipants);
+    const [impostorWords, setImpostorWords] = useLocalStorage('paquiz-words', initialImpostorWords);
+    const [drawCount, setDrawCount] = useLocalStorage('paquiz-draw-count', 5);
+
+    // Level 3 State
+    const [mimicaWords, setMimicaWords] = useLocalStorage('paquiz-mimica-words', initialMimicaWords);
 
     const renderLevelContent = () => {
         switch (activeLevel) {
@@ -19,23 +35,39 @@ function App() {
                     <TriviaView questions={questions} />
                 );
             case 2:
-                return (
-                    <div className="empty-state">
-                        <Info size={48} style={{ marginBottom: '1rem', opacity: 0.2 }} />
-                        <h3>Nivell 2</h3>
-                        <p>Properament disponible...</p>
-                    </div>
+                return isAdminMode ? (
+                    <ImpostorAdmin
+                        participants={participants}
+                        setParticipants={setParticipants}
+                        words={impostorWords}
+                        setWords={setImpostorWords}
+                        drawCount={drawCount}
+                        setDrawCount={setDrawCount}
+                    />
+                ) : (
+                    <ImpostorGame
+                        participants={participants}
+                        words={impostorWords}
+                        drawCount={drawCount}
+                    />
                 );
             case 3:
-                return (
-                    <div className="empty-state">
-                        <Info size={48} style={{ marginBottom: '1rem', opacity: 0.2 }} />
-                        <h3>Nivell 3</h3>
-                        <p>Properament disponible...</p>
-                    </div>
+                return isAdminMode ? (
+                    <MimicaAdmin words={mimicaWords} setWords={setMimicaWords} />
+                ) : (
+                    <MimicaGame words={mimicaWords} />
                 );
             default:
                 return null;
+        }
+    };
+
+    const getLevelIcon = (level) => {
+        switch (level) {
+            case 1: return <Trophy size={14} />;
+            case 2: return <Ghost size={14} />;
+            case 3: return <Mic size={14} />;
+            default: return null;
         }
     };
 
@@ -49,31 +81,28 @@ function App() {
             </header>
 
             <nav className="level-selector">
-                <button
-                    className={`level-tab ${activeLevel === 1 ? 'active' : ''}`}
-                    onClick={() => setActiveLevel(1)}
-                >
-                    Nivell 1
-                </button>
-                <button
-                    className={`level-tab ${activeLevel === 2 ? 'active' : ''}`}
-                    onClick={() => setActiveLevel(2)}
-                >
-                    Nivell 2
-                </button>
-                <button
-                    className={`level-tab ${activeLevel === 3 ? 'active' : ''}`}
-                    onClick={() => setActiveLevel(3)}
-                >
-                    Nivell 3
-                </button>
+                {[1, 2, 3].map((num) => (
+                    <button
+                        key={num}
+                        className={`level-tab ${activeLevel === num ? 'active' : ''}`}
+                        onClick={() => {
+                            setActiveLevel(num);
+                            setIsAdminMode(false); // Reset admin mode when switching levels
+                        }}
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                            {getLevelIcon(num)}
+                            Nivell {num}
+                        </div>
+                    </button>
+                ))}
             </nav>
 
             <main>
                 {renderLevelContent()}
             </main>
 
-            {activeLevel === 1 && (
+            {(activeLevel >= 1 && activeLevel <= 3) && (
                 <div className="admin-mode-toggle">
                     <button
                         className="btn btn-secondary"

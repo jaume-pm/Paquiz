@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, Edit2, Check, X } from 'lucide-react';
+import { Plus, Trash2, Edit2, Check, X, ChevronUp, ChevronDown } from 'lucide-react';
 
 const TriviaEdit = ({ questions, setQuestions }) => {
     const [editingId, setEditingId] = useState(null);
@@ -35,6 +35,15 @@ const TriviaEdit = ({ questions, setQuestions }) => {
     const deleteQuestion = (id) => {
         if (confirm('Estàs segur que vols eliminar aquesta pregunta?')) {
             setQuestions(questions.filter(q => q.id !== id));
+        }
+    };
+
+    const moveQuestion = (index, direction) => {
+        const newQuestions = [...questions];
+        const targetIndex = index + direction;
+        if (targetIndex >= 0 && targetIndex < questions.length) {
+            [newQuestions[index], newQuestions[targetIndex]] = [newQuestions[targetIndex], newQuestions[index]];
+            setQuestions(newQuestions);
         }
     };
 
@@ -79,11 +88,19 @@ const TriviaEdit = ({ questions, setQuestions }) => {
             )}
 
             <div className="edit-list">
-                {questions.map((q) => (
+                {questions.map((q, i) => (
                     <div key={q.id} className="item-card">
                         <div style={{ fontWeight: 600, marginBottom: '0.25rem' }}>{q.question}</div>
                         <div style={{ fontSize: '0.875rem', color: '#6c757d' }}>{q.answer}</div>
-                        <div className="item-actions">
+                        <div className="item-actions" style={{ marginTop: '1rem', borderTop: '1px solid #eee', paddingTop: '0.5rem' }}>
+                            <div style={{ marginRight: 'auto', display: 'flex', gap: '0.25rem' }}>
+                                <button className="btn btn-ghost" onClick={() => moveQuestion(i, -1)} disabled={i === 0 || isAdding || editingId} style={{ padding: '4px' }}>
+                                    <ChevronUp size={20} />
+                                </button>
+                                <button className="btn btn-ghost" onClick={() => moveQuestion(i, 1)} disabled={i === questions.length - 1 || isAdding || editingId} style={{ padding: '4px' }}>
+                                    <ChevronDown size={20} />
+                                </button>
+                            </div>
                             <button className="btn btn-ghost" onClick={() => startEdit(q)} disabled={isAdding || editingId}>
                                 <Edit2 size={18} />
                             </button>
