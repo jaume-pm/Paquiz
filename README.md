@@ -33,28 +33,24 @@ Paquiz is a modern, mobile-first web application designed for Padel enthusiasts.
 - **Styling**: Vanilla CSS with a modern Padel-inspired palette.
 - **Storage**: Browser LocalStorage.
 
-## ⚙️ Getting Started
+## 🚀 Desplegament a GitHub Pages
 
-1.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+El projecte està configurat per funcionar a `https://jaume-pm.github.io/Paquiz/`.
 
-2.  **Run in development mode**:
-    ```bash
-    npm run dev
-    ```
+### 1. Configuració Automàtica (Recomanat)
+He afegit un fitxer de **GitHub Action** a `.github/workflows/deploy.yml`. 
 
-3.  **Build for production**:
-    ```bash
-    npm run build
-    ```
+Només has de fer això:
+1. Puja tots els fitxers al teu repositori de GitHub (`git push`).
+2. Ves a la pestanya **Settings** del teu repositori a GitHub.
+3. Ves a **Pages** (al menú de l'esquerra).
+4. A la secció **Build and deployment**, canvia "Source" a **GitHub Actions**.
+5. Ara, cada vegada que facis un `push` a la branca `main`, el web s'actualitzarà sol!
 
-## 📝 Configuration
-
-Click the **Settings (Configure)** button at the bottom of any level to:
-- Add or remove names/questions/words.
-- Use the **Up/Down arrows** to change the order.
-- Adjust game-specific settings (like the number of participants in Nivell 2).
+### 2. Configuració Manual (Si no vols fer el pas 1)
+Si prefereixes pujar els fitxers a mà, recorda que:
+1. Has d'executar `npm run build` localment.
+2. Has de pujar **només** el contingut de la carpeta `dist`.
+3. El fitxer `index.html` ara utilitza rutes relatives per evitar l'error 404 que tenies.
 
 Gaudid del joc! 🎾
