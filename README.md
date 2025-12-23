@@ -43,4 +43,4 @@ La manera més senzilla de fer-ho funcioar:
 
 He configurat el projecte amb rutes relatives (`base: './'`) perquè funcioni a qualsevol lloc sense complicacions. 
 
-Gaudid del joc! 🎾
+Gaudiu del joc! 🎾
