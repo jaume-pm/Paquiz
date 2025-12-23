@@ -33,14 +33,14 @@ Paquiz is a modern, mobile-first web application designed for Padel enthusiasts.
 - **Styling**: Vanilla CSS with a modern Padel-inspired palette.
 - **Storage**: Browser LocalStorage.
 
-## 🚀 Desplegament a GitHub Pages
+## 🚀 Desplegament Automàtic a GitHub Pages
 
-La manera més senzilla de fer-ho funcioar:
+He configurat una **GitHub Action** perquè el web es construeixi i es publiqui sol cada vegada que facis un `push`.
 
-1. Executa al teu ordinador: `npm run build`
-2. Es crearà una carpeta `dist`.
-3. Puja el **contingut** d'aquesta carpeta `dist` al teu repositori de GitHub (només els fitxers de dins, no la carpeta sencera).
+### Com funciona?
+1. **Detecció automàtica**: GitHub sempre busca fitxers a la carpeta `.github/workflows/`. No cal que especifiquis res; ell trobarà el fitxer `deploy.yml` automàticament.
+2. **Activació**: Només has d'anar a **Settings > Pages** al teu repositori de GitHub i, sota **"Build and deployment"**, canviar la opció **"Source"** a **"GitHub Actions"**.
 
-He configurat el projecte amb rutes relatives (`base: './'`) perquè funcioni a qualsevol lloc sense complicacions. 
+Un cop fet això, cada vegada que pugis codi a la branca `main`, veuràs un puntet groc (o verd si ja ha acabat) al costat del commit. Això indica que GitHub està compilant el projecte.
 
 Gaudiu del joc! 🎾
