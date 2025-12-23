@@ -35,22 +35,12 @@ Paquiz is a modern, mobile-first web application designed for Padel enthusiasts.
 
 ## 🚀 Desplegament a GitHub Pages
 
-El projecte està configurat per funcionar a `https://jaume-pm.github.io/Paquiz/`.
+La manera més senzilla de fer-ho funcioar:
 
-### 1. Configuració Automàtica (Recomanat)
-He afegit un fitxer de **GitHub Action** a `.github/workflows/deploy.yml`. 
+1. Executa al teu ordinador: `npm run build`
+2. Es crearà una carpeta `dist`.
+3. Puja el **contingut** d'aquesta carpeta `dist` al teu repositori de GitHub (només els fitxers de dins, no la carpeta sencera).
 
-Només has de fer això:
-1. Puja tots els fitxers al teu repositori de GitHub (`git push`).
-2. Ves a la pestanya **Settings** del teu repositori a GitHub.
-3. Ves a **Pages** (al menú de l'esquerra).
-4. A la secció **Build and deployment**, canvia "Source" a **GitHub Actions**.
-5. Ara, cada vegada que facis un `push` a la branca `main`, el web s'actualitzarà sol!
-
-### 2. Configuració Manual (Si no vols fer el pas 1)
-Si prefereixes pujar els fitxers a mà, recorda que:
-1. Has d'executar `npm run build` localment.
-2. Has de pujar **només** el contingut de la carpeta `dist`.
-3. El fitxer `index.html` ara utilitza rutes relatives per evitar l'error 404 que tenies.
+He configurat el projecte amb rutes relatives (`base: './'`) perquè funcioni a qualsevol lloc sense complicacions. 
 
 Gaudid del joc! 🎾
